@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectValue } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
-function CommonForm({formControls,formData ,setFormData , onSubmit, buttonText}) {
+function CommonForm({ formControls,formData ,setFormData , onSubmit, buttonText}) {
 
     function renderInputByComponentType(getcontrolitem){
   let element=null;
@@ -17,7 +17,7 @@ function CommonForm({formControls,formData ,setFormData , onSubmit, buttonText})
         name={getcontrolitem.name}
         placeholder={getcontrolitem.placeholder}
         type={getcontrolitem.type}
-        id={getcontrolitem.name}
+        id={getcontrolitem.id}
         value={value}
         onChange = {(e)=>setFormData({...formData,[getcontrolitem.name]:e.target.value})}
         />

@@ -1,19 +1,35 @@
+import { useDispatch } from 'react-redux'
 import CommonForm from '../../../src/components/common/form.jsx'
 import { registerFormControls } from '../../../src/config/index.js'
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { use, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { registerUser } from '../../store/auth-slice/index.js'
+import { toast } from 'sonner'
 
 const Register = () => {
+  const navigate = useNavigate();
 
   const initialState = {
-    userName:"",
+    username:"",
     email:"",
     password:""
   }
 
   const [formData,setFormData] = useState(initialState)
+  const dispatch = useDispatch();
+  console.log(formData);
 
-  function onSubmit(){
+  function onSubmit(e){
+    e.preventDefault();
+    dispatch(registerUser(formData)).then((data)=>{  
+      if(data?.payload?.success){
+        toast.success('User register successfully!')
+        navigate("/auth/login");
+      }else{
+        toast.success('User already exist with the same email! Please try again ')
+      }
+    });
+
 
   }
   return (

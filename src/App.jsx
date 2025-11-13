@@ -15,16 +15,31 @@ import ShoppingCheckout from './pages/shopping-view/checkout.jsx'
 import ShoppingAccount from './pages/shopping-view/account.jsx'
 import CheckAuth from './components/common/checkauth.jsx'
 import UnAuthPage from './pages/unauth-page/index.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { checkAuthredux } from './store/auth-slice/index.js'
+import { Skeleton } from './components/ui/skeleton.jsx'
 
 
 function App() {
 
-  const isAuthenticated = false;
-  const user = {
-    name:"Sangam",
-    role:"user"
-  };
- 
+  // const isAuthenticated = false;
+  // const user = {
+  //   name:"Sangam",
+  //   role:"user"
+  // };
+  const dispatch =useDispatch();
+ const {isAuthenticated,isLoading,user}=useSelector(state=>state.auth)
+
+ useEffect(()=>{
+dispatch(checkAuthredux())
+ },[dispatch])
+
+
+ if(isLoading) return <Skeleton className="h-[125px] w-[800px] " />
+
+console.log(isLoading,user);
+  
   return (
     <div className="flex flex-col overflow-hidden bg-white">
     <Routes>
@@ -44,11 +59,13 @@ function App() {
       <Route path='listing' element={<ShoppingListing/>}></Route>
       <Route path='checkout' element={<ShoppingCheckout/>}></Route>
       <Route path='account' element={<ShoppingAccount/>}></Route>
+      
        </Route>
 
      
-      <Route path="/unauth-page" element={<UnAuthPage/>}></Route>
-       <Route path="*" element={<NotFound/>}></Route>
+   <Route path='/unauth-page' element={<UnAuthPage/>}></Route>
+      <Route path="*" element={<NotFound/>}></Route>
+      
 
     
 
