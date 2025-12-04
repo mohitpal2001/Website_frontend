@@ -47,6 +47,7 @@ console.log(isLoading,user);
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
       </Route>
+
       <Route path='/admin' element={<CheckAuth isAuthenticated={isAuthenticated} user={user}><AdminLayout/></CheckAuth>}>
       <Route path='dashboard' element={<AdminDashboard/>}></Route>
       <Route path='features'  element={<AdminFeatures/>}></Route>
@@ -59,12 +60,11 @@ console.log(isLoading,user);
       <Route path='listing' element={<ShoppingListing/>}></Route>
       <Route path='checkout' element={<ShoppingCheckout/>}></Route>
       <Route path='account' element={<ShoppingAccount/>}></Route>
-      
        </Route>
 
      
-   <Route path='/unauth-page' element={<UnAuthPage/>}></Route>
-      <Route path="*" element={<NotFound/>}></Route>
+        <Route path='/unauth-page' element={<UnAuthPage/>}></Route>
+        <Route path="*" element={<NotFound/>}></Route>
       
 
     

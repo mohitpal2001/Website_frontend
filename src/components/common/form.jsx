@@ -1,7 +1,7 @@
-import { SelectTrigger } from "@radix-ui/react-select";
+
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { Select, SelectContent, SelectValue } from "../ui/select";
+import { Select, SelectContent, SelectValue,SelectTrigger } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
@@ -23,19 +23,27 @@ function CommonForm({ formControls,formData ,setFormData , onSubmit, buttonText}
         />
         break;  
         case "select":
-        element =(<Select onValueChange = {(value)=>setFormData({
-            ...formData,[getcontrolitem.name]:value
-        })}  value={value}>
+        element =(
+        <Select 
+        onValueChange = {(value)=>
+            setFormData({
+            ...formData,
+            [getcontrolitem.name]:value
+        })
+        } 
+         value={value}
+         >
         <SelectTrigger className="w-full">
-            <SelectValue placeholder={getcontrolitem.placeholder} />
+            <SelectValue placeholder={getcontrolitem.label} />
+             </SelectTrigger>
             <SelectContent>
                 {
                     getcontrolitem.options &&
-                    getcontrolitem.options.length>0?
-                    getcontrolitem.option.map(optionitem =><SelectItem key={optionitem.id} value={optionitem.id}>{optionitem.label}</SelectItem>) :null
+                    getcontrolitem.options.length>0 ?
+                    getcontrolitem.options.map(optionitem =><SelectItem key={optionitem.id} value={optionitem.id}>{optionitem.label}</SelectItem>) :null
                 }
             </SelectContent>
-        </SelectTrigger>
+       
        </Select>
         )
         break;  

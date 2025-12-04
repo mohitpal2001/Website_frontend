@@ -1,10 +1,11 @@
 import { Menu,LogOut  } from "lucide-react";
 import React from "react";
+import { Button } from "@/components/ui/button";
 
-const AdminHeader = () => {
+const AdminHeader = ({setopen}) => {
   return (
     <header className="flex items-center justify-between px-4 py-3 bg-background border-b">
-      <Button>
+      <Button onClick={()=>setopen(true)} className="lg:hidden sm:block">
         <Menu />
         <span className="sr-only">Toggle Menu</span>
       </Button>
