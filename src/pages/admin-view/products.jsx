@@ -2,6 +2,7 @@
 
 import CommonForm from '@/components/common/form';
 import ProductImageUpload from '@/components/layout/admin-view/image-upload';
+import ProductTile from '@/components/layout/admin-view/productTile';
 import { Button } from '@/components/ui/button'
 import {
   Sheet,
@@ -13,7 +14,7 @@ import {
 import { addProductFormElements } from '@/config';
 import React, { Fragment, useState,useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { fetchProducts } from '@/store/admin/product-slice/index.js';
+import { addnewProduct, fetchProducts } from '@/store/admin/product-slice/index.js';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner'
 
@@ -35,6 +36,8 @@ const [imageFile,setImageFile]=useState(null);
 const[uploadedImageUrl,setuploadedImageUrl]=useState('')
 const [imageLoadingState,setimageLoadingState]=useState(false);
 const {products,isLoading} = useSelector((state)=>state.adminProducts);
+const [currentEditedId,setCurrentEditedId]=useState(null);
+
 const dispatch = useDispatch();
 
 
@@ -71,24 +74,37 @@ console.log(products,isLoading,formData);
           Add New Product
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 "></div>
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 ">
+     {
+      products && products.length>0 ? products.map((product)=><ProductTile setopenCreateProductDialog={setopenCreateProductDialog} setFormData={setFormData}   setCurrentEditedId={setCurrentEditedId} product={product} />):
+      <div className='flex justify-center items-center h-full'>
+        <p className='text-center text-gray-500'>No products found</p>
+      </div>
+     }
+
+      </div>
       <Sheet
         open={openCreateProductDialog}
         onOpenChange={() => {
           setopenCreateProductDialog(false);
+          setFormData(initialFormData);
+          setCurrentEditedId(null);
         }}
       >
         <SheetContent side="right" className="overflow-auto">
           <SheetHeader>
-            <SheetTitle>Add new Product</SheetTitle>
+            <SheetTitle>{
+             currentEditedId ? 'Edit Product' : 'Add New Product'
+            }
+            </SheetTitle>
           </SheetHeader>
-          <ProductImageUpload imageFile={imageFile} setimageFile={setImageFile}  uploadedImageUrl={uploadedImageUrl} setuploadedImageUrl={setuploadedImageUrl} imageLoadingState={imageLoadingState} setimageLoadingState={setimageLoadingState}/>
+          <ProductImageUpload imageFile={imageFile} setimageFile={setImageFile}  uploadedImageUrl={uploadedImageUrl} setuploadedImageUrl={setuploadedImageUrl} imageLoadingState={imageLoadingState} setimageLoadingState={setimageLoadingState} currentEditedId={currentEditedId}/>
           <div className='p-6'>
             <CommonForm
             formControls={addProductFormElements}
             formData={formData}
             setFormData={setFormData}
-            buttonText='Add'
+            buttonText={currentEditedId ? 'Edit' : 'Add'}
             onSubmit={onSubmit}
             />
           </div>
